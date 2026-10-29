@@ -27,7 +27,7 @@ from research_agent import STOP_WORDS, ResearchAgent
 # Streamlit Page Configuration
 # -----------------------------------------------------------------------------
 st.set_page_config(
-    page_title="AI Research Agent | Predixion",
+    page_title="AI Research Agent",
     page_icon="🔬",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -206,8 +206,8 @@ if "current_report" not in st.session_state:
 # Sidebar Configuration & Parameters
 # -----------------------------------------------------------------------------
 with st.sidebar:
-    st.markdown("### 🔬 Predixion AI Agent")
-    st.caption("Platform Engineer Internship Project")
+    st.markdown("### 🔬 AI Research Agent")
+    st.caption("Autonomous Research Platform")
     st.markdown("---")
 
     st.markdown("#### ⚙️ Research Controls")

@@ -17,7 +17,7 @@ This document provides a complete, step-by-step 3–5 minute demonstration scrip
 
 ### Segment 1: Introduction & Architecture Overview (0:00 – 0:45)
 **What to say:**
-> "Hello! Today I am presenting my AI Research Agent project for the Predixion AI Platform Engineer internship.
+> "Hello! Today I am presenting my AI Research Agent project.
 > The agent is designed to take an open-ended research question, create an execution plan, use two distinct external tools—DuckDuckGo web search and a BeautifulSoup-based web scraper—filter and rank retrieved evidence, and produce a structured research report with complete source attribution, confidence estimation, and limitation disclosures.
 > Crucially, this implementation is an honest, rule-based autonomous agent without relying on paid or black-box LLM APIs. Its modular design allows seamless integration of LLMs later for synthesis, while maintaining strict security safeguards against SSRF and untrusted web content."
 

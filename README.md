@@ -1,6 +1,6 @@
 # AI Research Agent
 
-> **Predixion AI Platform Engineer Internship Assignment**  
+> **Autonomous AI Research Agent Platform**  
 > An autonomous, rule-based research agent architecture featuring deterministic orchestration, multi-tool delegation, strict security isolation, and transparent evidence synthesis.
 
 ---
