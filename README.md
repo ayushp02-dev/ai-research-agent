@@ -412,7 +412,23 @@ Because the project is built with clean separation of concerns, integrating a La
 
 ---
 
-## 18. Transparent LLM Disclosure
+## 18. Core Assignment Questions Answered
+
+To directly address the specific requirements outlined in the assignment specification:
+
+| Question from Specification | Architecture & Design Decision |
+|---|---|
+| **Why did you choose an agentic approach here?** | Rather than a single static API call or keyword search, complex research requires iterative decomposition: validating the question, selecting appropriate tools dynamically, recovering when individual pages fail or block access, and synthesizing multi-source findings into a structured schema. |
+| **What tools did you use, and why?** | We integrated two complementary tools: `WebSearchTool` via DuckDuckGo (`ddgs`) for free, broad query discovery without API keys, and `WebScraperTool` via `requests` and `BeautifulSoup4` for targeted full-DOM HTML retrieval and script-stripped text extraction. |
+| **How does the system handle bad tool results?** | When search fails or yields zero hits, the agent catches the error and reports an honest explanation. When webpage scraping encounters HTTP errors (403, 404, 500) or timeouts, it automatically logs the incident and falls back to using the search engine's snippet as an alternate evidence record. |
+| **How do you reduce hallucinations?** | The system enforces strict citation lineage: every finding is bound to a verified source URL and extracted title. The agent never invents citations, and when evidence has 0% keyword match, it rejects the findings and explicitly reports that no reliable evidence could be located. |
+| **How would you make this production-ready?** | By migrating HTTP scraping to asynchronous I/O (`httpx` / `aiohttp`), integrating headless browser rendering (Playwright) for JavaScript SPAs, adding distributed caching (Redis), and implementing strict DNS re-resolution pinning against rebinding attacks. |
+| **What would you monitor in production?** | End-to-end query latency, search engine error rates, scraping success/timeout percentages, average relevance scores, confidence level distributions, and memory usage per request. |
+| **What were your key tradeoffs?** | We chose a deterministic, rule-based keyword relevance approach over an LLM API to guarantee 100% testability, zero operating cost, no API rate limits, and elimination of non-deterministic hallucinations. The trade-off is that answer synthesis relies on extracted text rather than generative abstractive summarization. |
+
+---
+
+## 19. Transparent LLM Disclosure
 
 > [!IMPORTANT]
 > **Transparent Disclosure**: This implementation is strictly a **rule-based autonomous agent** utilizing explicit Python orchestration, deterministic keyword relevance ranking, and transparent heuristic confidence estimation. **No Large Language Model (LLM) or paid AI API is used in this core codebase.** This deliberate architecture ensures complete transparency, zero financial dependency, full reproducibility, and robust interview-ready explainability.
