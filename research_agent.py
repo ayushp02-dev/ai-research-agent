@@ -323,6 +323,11 @@ class ResearchAgent:
             return {
                 "level": "Low",
                 "explanation": "No relevant findings matching the research query were retrieved.",
+                "score": 0,
+                "max_score": 5,
+                "extracted_score": 0,
+                "relevance_score": 0,
+                "diversity_score": 0,
             }
 
         avg_relevance = sum(f["relevance_score"] for f in findings) / len(findings)
@@ -330,6 +335,11 @@ class ResearchAgent:
             return {
                 "level": "Low",
                 "explanation": "Retrieved sources contain 0% keyword relevance to the question.",
+                "score": 0,
+                "max_score": 5,
+                "extracted_score": 0,
+                "relevance_score": 0,
+                "diversity_score": 0,
             }
 
         # Factor 1: How many pages had extractable content
@@ -341,32 +351,36 @@ class ResearchAgent:
         # Factor 3: Source diversity
         unique_sources = len(set(f["source_url"] for f in findings))
 
-        score = 0
         details = []
 
+        extracted_score = 0
         if extracted_count >= 3:
-            score += 2
+            extracted_score = 2
             details.append(f"{extracted_count} pages had extractable content")
         elif extracted_count >= 1:
-            score += 1
+            extracted_score = 1
             details.append(f"{extracted_count} page(s) had extractable content")
         else:
             details.append("No pages had extractable content (snippets only)")
 
+        relevance_score = 0
         if avg_relevance >= 0.5:
-            score += 2
+            relevance_score = 2
             details.append(f"average keyword relevance: {avg_relevance:.0%}")
         elif avg_relevance >= 0.25:
-            score += 1
+            relevance_score = 1
             details.append(f"average keyword relevance: {avg_relevance:.0%}")
         else:
             details.append(f"low keyword relevance: {avg_relevance:.0%}")
 
+        diversity_score = 0
         if unique_sources >= 3:
-            score += 1
+            diversity_score = 1
             details.append(f"{unique_sources} unique sources")
         else:
             details.append(f"only {unique_sources} unique source(s)")
+
+        score = extracted_score + relevance_score + diversity_score
 
         # Map to confidence level
         if score >= 4:
@@ -381,7 +395,15 @@ class ResearchAgent:
             f"(Heuristic score: {score}/5)"
         )
 
-        return {"level": level, "explanation": explanation}
+        return {
+            "level": level,
+            "explanation": explanation,
+            "score": score,
+            "max_score": 5,
+            "extracted_score": extracted_score,
+            "relevance_score": relevance_score,
+            "diversity_score": diversity_score,
+        }
 
     def _identify_limitations(self, search_error, extractions, findings):
         """Identify and report the limitations of this research."""
