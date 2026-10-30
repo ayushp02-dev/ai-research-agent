@@ -261,20 +261,23 @@ st.markdown(
     .pipeline-step-box {
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: center;
+        gap: 16px;
+        max-width: 980px;
+        margin: 0 auto 24px auto;
         background: #f8fafc;
         border: 1px solid #e2e8f0;
-        border-radius: 12px;
-        padding: 12px 18px;
-        margin-bottom: 20px;
-        overflow-x: auto;
+        border-radius: 14px;
+        padding: 14px 20px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.02);
     }
     .pipeline-node {
         display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
-        min-width: 110px;
+        width: 110px;
+        flex-shrink: 0;
     }
     .pipeline-node-icon {
         width: 36px;
@@ -299,8 +302,10 @@ st.markdown(
     }
     .pipeline-arrow {
         color: #94a3b8;
-        font-size: 1rem;
-        padding: 0 4px;
+        font-size: 1.1rem;
+        padding: 0 2px;
+        flex-shrink: 0;
+        opacity: 0.7;
     }
     </style>
     """,
@@ -476,12 +481,12 @@ st.markdown(
 # -----------------------------------------------------------------------------
 # Query Input & Action Bar
 # -----------------------------------------------------------------------------
-initial_query = st.session_state.get("active_query", "What are the benefits of renewable energy?")
+initial_query = st.session_state.get("active_query", "")
 
 query_input = st.text_input(
     "Research Question:",
     value=initial_query,
-    placeholder="Ask any research question (e.g. How does photosynthesis work?)...",
+    placeholder="Ask any research question...",
 )
 
 col_run, col_clear, _ = st.columns([1.5, 1.2, 5])
@@ -492,6 +497,7 @@ with col_clear:
     if st.button("🗑️ Clear History", use_container_width=True):
         st.session_state["history"] = []
         st.session_state["current_report"] = None
+        st.session_state["active_query"] = ""
         st.rerun()
 
 # -----------------------------------------------------------------------------
