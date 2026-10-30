@@ -1,4 +1,4 @@
-# AI Research Agent
+﻿# AI Research Agent
 
 > **Autonomous AI Research Agent Platform**  
 > An autonomous, rule-based research agent architecture featuring deterministic orchestration, multi-tool delegation, strict security isolation, and transparent evidence synthesis.
@@ -32,7 +32,7 @@ This project addresses these challenges by building an observable, reliable, sel
   - `Tool 1: WebSearchTool` powered by DuckDuckGo (`ddgs`) with zero API keys or rate-limit subscriptions.
   - `Tool 2: WebScraperTool` powered by `requests` and `BeautifulSoup4` with script/style stripping and length validation.
 - **Enterprise-Grade Security (SSRF Protection)**: Rejection of private IP spaces (RFC 1918), loopback (`localhost`, `127.0.0.1`), and non-HTTP protocols (`file://`, `ftp://`).
-- **Verifiable Citation Tracking**: 100% genuine attribution—every reported finding is tied to its verified source URL and title.
+- **Verifiable Citation Tracking**: 100% genuine attributionâ€”every reported finding is tied to its verified source URL and title.
 - **Deterministic Confidence Heuristic**: Transparent 5-point evidence scoring based on content extraction success, keyword relevance, and source diversity.
 - **Resilient Failure Recovery**: Automatic fallback to search snippets when scraping is blocked (e.g., HTTP 403/404/500 or timeouts), without terminating execution.
 - **Zero-Relevance Detection**: Correctly flags obscure or gibberish queries and reports Low confidence rather than presenting irrelevant text as reliable findings.
@@ -136,7 +136,7 @@ The architecture follows a clear pipeline design where concerns are strictly sep
 ### Steps
 1. Open PowerShell and navigate to the project directory:
    ```powershell
-   cd C:\Users\ayush\.gemini\antigravity\scratch\predixion-research-agent
+   cd C:\Users\ayush\ai-research-agent
    ```
 
 2. (Optional but recommended) Create and activate a virtual environment:
@@ -297,9 +297,9 @@ KEY FINDINGS (5 source(s)):
 [...Additional findings 2 through 5...]
 
 LIMITATIONS:
-  - This is a rule-based research agent without an LLM. It uses keyword matching for relevance — it cannot deeply understand or synthesize information the way a language model would.
+  - This is a rule-based research agent without an LLM. It uses keyword matching for relevance â€” it cannot deeply understand or synthesize information the way a language model would.
   - Results are limited to what DuckDuckGo returns and what can be extracted from public HTML pages. Paywalled, JavaScript-rendered, or dynamic content may be inaccessible.
-  - Confidence estimation uses a simple heuristic based on source count, keyword relevance, and content extraction success — not statistical analysis or expert evaluation.
+  - Confidence estimation uses a simple heuristic based on source count, keyword relevance, and content extraction success â€” not statistical analysis or expert evaluation.
 
 SUGGESTED NEXT STEPS:
   - Verify key findings by visiting the original source URLs directly.
@@ -395,11 +395,11 @@ If deploying this architecture into high-throughput production, the following en
 
 ## 16. Monitoring, Logging, Latency & Cost
 
-- **Latency Tracking**: End-to-end execution latency is measured via `time.time()` and recorded in every report. Typical queries complete in 7–13 seconds.
+- **Latency Tracking**: End-to-end execution latency is measured via `time.time()` and recorded in every report. Typical queries complete in 7â€“13 seconds.
 - **Structured Logging**: Uses Python's standard `logging` library. Secret masking and URL redaction can be hooked into log formatters.
 - **Cost Considerations**:
   - **Current Cost**: $0.00 (Zero paid APIs, open-source dependencies).
-  - **Projected LLM Cost (if integrated)**: Using an open-source model (e.g., via Ollama/vLLM) costs $0 in API fees, requiring ~4GB VRAM. Using paid APIs (e.g., Claude 3.5 Sonnet or GPT-4o-mini) would cost approximately $0.001 – $0.003 per synthesized research report.
+  - **Projected LLM Cost (if integrated)**: Using an open-source model (e.g., via Ollama/vLLM) costs $0 in API fees, requiring ~4GB VRAM. Using paid APIs (e.g., Claude 3.5 Sonnet or GPT-4o-mini) would cost approximately $0.001 â€“ $0.003 per synthesized research report.
 
 ---
 
@@ -432,3 +432,4 @@ To directly address the specific requirements outlined in the assignment specifi
 
 > [!IMPORTANT]
 > **Transparent Disclosure**: This implementation is strictly a **rule-based autonomous agent** utilizing explicit Python orchestration, deterministic keyword relevance ranking, and transparent heuristic confidence estimation. **No Large Language Model (LLM) or paid AI API is used in this core codebase.** This deliberate architecture ensures complete transparency, zero financial dependency, full reproducibility, and robust interview-ready explainability.
+
