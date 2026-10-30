@@ -3,7 +3,8 @@ AI Research Agent — Streamlit Interactive Web Application.
 
 An enterprise-grade, interview-ready research platform featuring:
 - Autonomous 13-step orchestration with live progress streaming
-- Rich interactive Plotly visualizations (Relevance rankings, Confidence gauge, Retrieval funnel, Domain distribution)
+- High-aesthetic glassmorphism UI with ambient lighting and Google Fonts (Plus Jakarta Sans)
+- Rich interactive Plotly visualizations (Relevance ranking, Confidence gauge, Retrieval funnel, Content depth)
 - In-App Documentation & Architecture Explorer (README, Evaluation report, Demo script)
 - Research session history & multi-query comparison
 - Keyword highlighter in evidence previews
@@ -34,120 +35,272 @@ st.set_page_config(
 )
 
 # -----------------------------------------------------------------------------
-# Custom Styling (Glassmorphism & Modern Aesthetic)
+# High-Aesthetic Glassmorphism & Modern CSS
 # -----------------------------------------------------------------------------
 st.markdown(
     """
     <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+    html, body, [class*="css"] {
+        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    code, pre {
+        font-family: 'JetBrains Mono', monospace !important;
+    }
+
+    /* Ambient background styling */
+    .main .block-container {
+        padding-top: 2rem;
+        padding-bottom: 3rem;
+        max-width: 1280px;
+    }
+
+    /* Hero Branding */
+    .hero-container {
+        background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.9) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 32px 36px;
+        margin-bottom: 24px;
+        box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        position: relative;
+        overflow: hidden;
+    }
+    .hero-container::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -10%;
+        width: 380px;
+        height: 380px;
+        background: radial-gradient(circle, rgba(56, 189, 248, 0.18) 0%, rgba(99, 102, 241, 0.08) 50%, transparent 75%);
+        pointer-events: none;
+    }
+    .hero-title {
+        font-size: 2.3rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #ffffff 20%, #93c5fd 60%, #c4b5fd 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 8px;
+        letter-spacing: -0.02em;
+    }
+    .hero-subtitle {
+        color: #94a3b8;
+        font-size: 1.05rem;
+        font-weight: 400;
+        line-height: 1.5;
+        max-width: 820px;
+        margin-bottom: 18px;
+    }
+    .hero-tags {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    /* Live Pulsing Dot */
+    .pulse-dot {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: #10b981;
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+        animation: pulse 1.8s infinite;
+        margin-right: 6px;
+    }
+    @keyframes pulse {
+        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+        70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    .badge-pill {
+        display: inline-flex;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: #e2e8f0;
+        padding: 5px 12px;
+        border-radius: 9999px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        backdrop-filter: blur(8px);
+    }
+
     /* Metric Cards */
     div[data-testid="stMetric"] {
-        background: linear-gradient(145deg, #ffffff, #f8fafc);
+        background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
         border: 1px solid #e2e8f0;
-        padding: 16px 20px;
-        border-radius: 14px;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        padding: 18px 22px;
+        border-radius: 16px;
+        box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.04);
+        transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
     div[data-testid="stMetric"]:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+        transform: translateY(-3px);
+        box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.08);
+        border-color: #93c5fd;
     }
     div[data-testid="stMetricLabel"] {
-        font-size: 0.85rem;
-        font-weight: 600;
+        font-size: 0.8rem;
+        font-weight: 700;
         color: #64748b;
         text-transform: uppercase;
-        letter-spacing: 0.05em;
+        letter-spacing: 0.06em;
     }
     div[data-testid="stMetricValue"] {
-        font-size: 1.6rem;
+        font-size: 1.75rem;
         font-weight: 800;
         color: #0f172a;
+        letter-spacing: -0.02em;
     }
 
     /* Executive Summary Card */
     .summary-card {
-        background: linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 100%);
+        background: linear-gradient(135deg, #f8fafc 0%, #f0f9ff 50%, #eff6ff 100%);
         border: 1px solid #bae6fd;
-        border-radius: 14px;
-        padding: 24px;
+        border-radius: 16px;
+        padding: 26px 30px;
         margin-bottom: 24px;
-        box-shadow: 0 4px 12px rgba(14, 165, 233, 0.08);
+        box-shadow: 0 10px 25px -5px rgba(14, 165, 233, 0.08);
+        position: relative;
+    }
+    .summary-card::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 5px;
+        background: linear-gradient(180deg, #0284c7 0%, #6366f1 100%);
+        border-top-left-radius: 16px;
+        border-bottom-left-radius: 16px;
     }
 
     /* Evidence Finding Card */
     .finding-card {
         background: #ffffff;
         border: 1px solid #e2e8f0;
-        border-radius: 12px;
-        padding: 18px;
-        margin-bottom: 14px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.03);
-        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        border-radius: 14px;
+        padding: 22px;
+        margin-bottom: 16px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .finding-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 16px rgba(0,0,0,0.06);
+        transform: translateY(-3px);
+        box-shadow: 0 12px 24px -6px rgba(15, 23, 42, 0.08);
         border-color: #38bdf8;
     }
 
-    /* Badges */
+    /* Confidence Badges */
     .badge-high {
-        background: #dcfce7;
-        color: #166534;
-        padding: 5px 12px;
+        background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+        color: #065f46;
+        padding: 6px 14px;
         border-radius: 9999px;
         font-weight: 700;
         font-size: 0.82rem;
-        display: inline-block;
-        border: 1px solid #86efac;
+        border: 1px solid #6ee7b7;
+        box-shadow: 0 2px 4px rgba(16, 185, 129, 0.1);
     }
     .badge-moderate {
-        background: #fef9c3;
+        background: linear-gradient(135deg, #fefce8 0%, #fef08a 100%);
         color: #854d0e;
-        padding: 5px 12px;
+        padding: 6px 14px;
         border-radius: 9999px;
         font-weight: 700;
         font-size: 0.82rem;
-        display: inline-block;
         border: 1px solid #fde047;
+        box-shadow: 0 2px 4px rgba(234, 179, 8, 0.1);
     }
     .badge-low {
-        background: #fee2e2;
+        background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
         color: #991b1b;
-        padding: 5px 12px;
+        padding: 6px 14px;
         border-radius: 9999px;
         font-weight: 700;
         font-size: 0.82rem;
-        display: inline-block;
         border: 1px solid #fca5a5;
+        box-shadow: 0 2px 4px rgba(239, 68, 68, 0.1);
     }
-    .badge-source {
+    .badge-domain {
         background: #f1f5f9;
-        color: #334155;
+        color: #1e293b;
         padding: 4px 10px;
         border-radius: 6px;
         font-size: 0.78rem;
         font-weight: 600;
         border: 1px solid #cbd5e1;
     }
-    .badge-domain {
-        background: #eff6ff;
-        color: #1d4ed8;
-        padding: 3px 8px;
+    .badge-evidence {
+        background: #e0f2fe;
+        color: #0369a1;
+        padding: 4px 10px;
         border-radius: 6px;
-        font-size: 0.75rem;
+        font-size: 0.78rem;
         font-weight: 600;
-        border: 1px solid #bfdbfe;
+        border: 1px solid #bae6fd;
     }
 
     /* Keyword Highlight */
     mark.highlight {
-        background-color: #fef08a;
-        color: #854d0e;
-        padding: 2px 4px;
+        background: #fef08a;
+        color: #713f12;
+        padding: 2px 5px;
         border-radius: 4px;
         font-weight: 600;
+    }
+
+    /* Pipeline Banner */
+    .pipeline-step-box {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 12px 18px;
+        margin-bottom: 20px;
+        overflow-x: auto;
+    }
+    .pipeline-node {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        min-width: 110px;
+    }
+    .pipeline-node-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: #e2e8f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        margin-bottom: 6px;
+    }
+    .pipeline-node-active .pipeline-node-icon {
+        background: linear-gradient(135deg, #0284c7, #6366f1);
+        color: white;
+        box-shadow: 0 4px 10px rgba(2, 132, 199, 0.3);
+    }
+    .pipeline-node-text {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #475569;
+    }
+    .pipeline-arrow {
+        color: #94a3b8;
+        font-size: 1rem;
+        padding: 0 4px;
     }
     </style>
     """,
@@ -177,7 +330,6 @@ def highlight_keywords(text, question):
     if not keywords:
         return text
 
-    # Case-insensitive replacement with <mark> tags
     pattern = re.compile(r"\b(" + "|".join(re.escape(k) for k in keywords) + r")\b", re.IGNORECASE)
     highlighted = pattern.sub(r'<mark class="highlight">\1</mark>', text)
     return highlighted
@@ -207,27 +359,27 @@ if "current_report" not in st.session_state:
 # -----------------------------------------------------------------------------
 with st.sidebar:
     st.markdown("### 🔬 AI Research Agent")
-    st.caption("Autonomous Research Platform")
+    st.caption("Autonomous Research Platform • Version 2.0")
     st.markdown("---")
 
-    st.markdown("#### ⚙️ Research Controls")
+    st.markdown("#### ⚙️ Orchestration Controls")
     max_results = st.slider(
         "Max Search Results",
         min_value=3,
         max_value=8,
         value=5,
-        help="Number of web sources to query and extract.",
+        help="Number of web sources to query, validate, and scrape.",
     )
 
     domain_filter = st.text_input(
         "Domain Filter (Optional)",
         placeholder="e.g. org, edu, wikipedia.org",
-        help="Optional domain keyword or TLD to prioritize.",
+        help="Target a specific domain or TLD.",
     )
 
     st.markdown("---")
-    st.markdown("#### 💡 Quick Test Presets")
-    st.caption("Click to load verified benchmark questions:")
+    st.markdown("#### 💡 Quick Benchmark Presets")
+    st.caption("Click to load verified test queries:")
 
     test_queries = [
         ("🌱 Renewable Energy", "What are the benefits of renewable energy?"),
@@ -237,41 +389,85 @@ with st.sidebar:
     ]
 
     for label, q_text in test_queries:
-        if st.button(label, key=f"btn_{label}"):
+        if st.button(label, key=f"btn_{label}", use_container_width=True):
             st.session_state["active_query"] = q_text
 
     st.markdown("---")
-    st.markdown("#### 🛡️ Verified Safeguards")
+    st.markdown("#### 🛡️ Production Safeguards")
     st.markdown(
         """
-        - 🔒 **SSRF Protection** (Blocks private IPs & localhost)
-        - 📑 **Content-Type Filter** (Strict HTML validation)
-        - ⏱️ **Timeout Caps** (10s scrape / 25s search)
-        - 🌐 **100% Verifiable URLs** (No fake citations)
-        - 🧪 **23/23 Tests Passed** (`pytest` passing)
-        """
+        <div style="font-size: 0.85rem; line-height: 1.8; color: #475569;">
+            <div>🔒 <strong>SSRF Protection</strong>: RFC 1918 & Localhost blocked</div>
+            <div>📑 <strong>Type Filter</strong>: Strict HTML Content-Type only</div>
+            <div>⏱️ <strong>Timeout Caps</strong>: 10s fetch / 25s search timeout</div>
+            <div>🌐 <strong>Source Grounding</strong>: 100% genuine URL citations</div>
+            <div>🧪 <strong>Offline Tests</strong>: 23/23 passing via pytest</div>
+        </div>
+        """,
+        unsafe_allow_html=True,
     )
 
     st.markdown("---")
-    st.caption("Deterministic Rule-Based Agent • No Paid APIs")
+    st.caption("Built with Python • DuckDuckGo • BeautifulSoup4 • Plotly")
 
 # -----------------------------------------------------------------------------
-# Main Hero Section
+# Hero Section
 # -----------------------------------------------------------------------------
-st.title("🔬 AI Research Agent")
-st.markdown(
-    "**Autonomous Rule-Based Information Retrieval & Visual Synthesis Platform**  \n"
-    "*Built with Python, DuckDuckGo (`ddgs`), BeautifulSoup4, and Plotly*"
-)
-
 st.markdown(
     """
-    <div style="display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap;">
-        <span class="badge-source">⚡ DuckDuckGo Engine</span>
-        <span class="badge-source">🛡️ SSRF Protected</span>
-        <span class="badge-source">🌐 BeautifulSoup Scraper</span>
-        <span class="badge-source">📊 Plotly Visualizations</span>
-        <span class="badge-source">🧪 23 Automated Tests</span>
+    <div class="hero-container">
+        <div class="hero-title">🔬 AI Research Agent</div>
+        <div class="hero-subtitle">
+            Autonomous information retrieval and visual evidence synthesis platform with deterministic 13-step orchestration, dual tool delegation, and enterprise-grade SSRF security.
+        </div>
+        <div class="hero-tags">
+            <span class="badge-pill"><span class="pulse-dot"></span> Agent Engine Live</span>
+            <span class="badge-pill">🔍 DuckDuckGo (ddgs)</span>
+            <span class="badge-pill">🌐 BeautifulSoup4 Scraper</span>
+            <span class="badge-pill">🛡️ SSRF Guarded</span>
+            <span class="badge-pill">📊 Plotly Analytics</span>
+            <span class="badge-pill">🧪 23 Unit Tests</span>
+        </div>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
+
+# -----------------------------------------------------------------------------
+# Visual Pipeline Stepper
+# -----------------------------------------------------------------------------
+st.markdown(
+    """
+    <div class="pipeline-step-box">
+        <div class="pipeline-node pipeline-node-active">
+            <div class="pipeline-node-icon">📋</div>
+            <div class="pipeline-node-text">1. Ingest & Validate</div>
+        </div>
+        <div class="pipeline-arrow">➔</div>
+        <div class="pipeline-node pipeline-node-active">
+            <div class="pipeline-node-icon">🗺️</div>
+            <div class="pipeline-node-text">2. Formulate Plan</div>
+        </div>
+        <div class="pipeline-arrow">➔</div>
+        <div class="pipeline-node pipeline-node-active">
+            <div class="pipeline-node-icon">🔍</div>
+            <div class="pipeline-node-text">3. Web Search</div>
+        </div>
+        <div class="pipeline-arrow">➔</div>
+        <div class="pipeline-node pipeline-node-active">
+            <div class="pipeline-node-icon">🛡️</div>
+            <div class="pipeline-node-text">4. SSRF & Scrape</div>
+        </div>
+        <div class="pipeline-arrow">➔</div>
+        <div class="pipeline-node pipeline-node-active">
+            <div class="pipeline-node-icon">📊</div>
+            <div class="pipeline-node-text">5. Rank & Score</div>
+        </div>
+        <div class="pipeline-arrow">➔</div>
+        <div class="pipeline-node pipeline-node-active">
+            <div class="pipeline-node-icon">📑</div>
+            <div class="pipeline-node-text">6. Structured Report</div>
+        </div>
     </div>
     """,
     unsafe_allow_html=True,
@@ -305,7 +501,6 @@ if run_btn:
     if not query_input.strip():
         st.error("⚠️ Please provide a non-empty research question.")
     else:
-        # Live progress container
         status_box = st.status("🤖 Orchestrating 13-Step Research Pipeline...", expanded=True)
 
         step_icons = {
@@ -336,7 +531,6 @@ if run_btn:
             expanded=False,
         )
 
-        # Store in session state and history
         st.session_state["current_report"] = report
         st.session_state["history"].append({
             "timestamp": time.strftime("%H:%M:%S"),
@@ -345,21 +539,20 @@ if run_btn:
         })
 
 # -----------------------------------------------------------------------------
-# Research Session History Selector (Multi-Query Switcher)
+# Research Session History Selector
 # -----------------------------------------------------------------------------
 if st.session_state["history"]:
-    st.markdown("---")
-    st.markdown("#### 📂 Research Session History")
+    st.markdown("#### 📂 Session History")
     hist_cols = st.columns(min(len(st.session_state["history"]), 4))
     for idx, item in enumerate(reversed(st.session_state["history"][-4:])):
         with hist_cols[idx]:
-            label = f"🕒 {item['timestamp']}: {item['query'][:22]}..."
+            label = f"🕒 {item['timestamp']}: {item['query'][:20]}..."
             if st.button(label, key=f"hist_{idx}", use_container_width=True):
                 st.session_state["current_report"] = item["report"]
                 st.rerun()
 
 # -----------------------------------------------------------------------------
-# Report Presentation & Visualizations
+# Report Presentation & Visual Analytics
 # -----------------------------------------------------------------------------
 if st.session_state["current_report"]:
     rep = st.session_state["current_report"]
@@ -373,9 +566,9 @@ if st.session_state["current_report"]:
     m1, m2, m3, m4 = st.columns(4)
     with m1:
         st.metric(
-            label="Execution Latency",
+            label="⚡ Execution Latency",
             value=f"{rep['execution_time_seconds']}s",
-            help="Total time taken for search, safety validation, scraping, and ranking.",
+            help="Total time for search, SSRF checks, scraping, and scoring.",
         )
     with m2:
         conf_level = conf["level"]
@@ -386,18 +579,21 @@ if st.session_state["current_report"]:
         )
         st.markdown(
             f"""
-            <div style="background: #ffffff; border: 1px solid #e2e8f0; padding: 14px 18px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-                <div style="font-size: 0.85rem; font-weight: 600; color: #64748b; text-transform: uppercase;">Confidence Level</div>
-                <div style="margin-top: 6px;"><span class="{badge_cls}">{conf_level.upper()}</span> <small style="color: #64748b;">({conf.get('score', 0)}/5 pts)</small></div>
+            <div style="background: #ffffff; border: 1px solid #e2e8f0; padding: 18px 22px; border-radius: 16px; box-shadow: 0 4px 12px -2px rgba(0,0,0,0.04);">
+                <div style="font-size: 0.8rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.06em;">🛡️ Confidence Level</div>
+                <div style="margin-top: 8px; display: flex; align-items: center; gap: 8px;">
+                    <span class="{badge_cls}">{conf_level.upper()}</span>
+                    <span style="font-size: 0.9rem; font-weight: 700; color: #475569;">({conf.get('score', 0)}/5 pts)</span>
+                </div>
             </div>
             """,
             unsafe_allow_html=True,
         )
     with m3:
         st.metric(
-            label="Source Extraction Ratio",
+            label="🌐 Scrape Ratio",
             value=f"{rep['sources_extracted']} / {rep['sources_validated']}",
-            help="Webpages successfully scraped vs total safe URLs validated.",
+            help="Webpages successfully scraped vs validated safe URLs.",
         )
     with m4:
         avg_rel = (
@@ -405,7 +601,7 @@ if st.session_state["current_report"]:
             if findings else 0.0
         )
         st.metric(
-            label="Average Relevance",
+            label="🎯 Avg Relevance",
             value=f"{avg_rel:.0%}",
             help="Average keyword match density across all retrieved evidence.",
         )
@@ -417,21 +613,24 @@ if st.session_state["current_report"]:
         f"""
         <div class="summary-card">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                <h3 style="margin: 0; color: #0284c7; font-size: 1.25rem;">Executive Short Answer</h3>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 1.3rem;">💡</span>
+                    <h3 style="margin: 0; color: #0369a1; font-size: 1.25rem; font-weight: 700;">Executive Synthesis</h3>
+                </div>
                 <span class="{badge_cls}">Confidence: {conf_level}</span>
             </div>
-            <p style="font-size: 1.1rem; line-height: 1.6; color: #0f172a; margin-bottom: 14px;">
+            <p style="font-size: 1.1rem; line-height: 1.65; color: #0f172a; margin-bottom: 16px; font-weight: 500;">
                 {rep['short_answer']}
             </p>
-            <div style="font-size: 0.85rem; color: #475569; background: rgba(255,255,255,0.6); padding: 8px 12px; border-radius: 8px;">
-                <strong>Confidence Evaluation Heuristic:</strong> {conf['explanation']}
+            <div style="font-size: 0.85rem; color: #475569; background: rgba(255, 255, 255, 0.7); padding: 10px 14px; border-radius: 8px; border: 1px solid rgba(226, 232, 240, 0.8);">
+                <strong>Heuristic Rationale:</strong> {conf['explanation']}
             </div>
         </div>
         """,
         unsafe_allow_html=True,
     )
 
-    # 3. Interactive Analytics & Visualizations Section
+    # 3. Interactive Visual Analytics Section
     st.markdown("### 📊 Interactive Visual Analytics")
 
     vcol1, vcol2 = st.columns([3, 2])
@@ -442,7 +641,7 @@ if st.session_state["current_report"]:
             chart_data = []
             for f in findings:
                 domain = get_domain(f["source_url"])
-                title_short = (f["source_title"][:28] + "..") if len(f["source_title"]) > 28 else f["source_title"]
+                title_short = (f["source_title"][:26] + "..") if len(f["source_title"]) > 26 else f["source_title"]
                 chart_data.append({
                     "Source": f"{title_short} ({domain})",
                     "Relevance": f["relevance_score"] * 100,
@@ -464,20 +663,25 @@ if st.session_state["current_report"]:
                 labels={"Relevance": "Relevance Match (%)"},
                 text="Relevance",
             )
-            fig_bar.update_traces(texttemplate="%{text:.0f}%", textposition="outside")
+            fig_bar.update_traces(
+                texttemplate="%{text:.0f}%",
+                textposition="outside",
+                marker=dict(line=dict(width=1, color="rgba(255,255,255,0.4)")),
+            )
             fig_bar.update_layout(
                 yaxis={"autorange": "reversed"},
-                margin={"l": 20, "r": 20, "t": 10, "b": 20},
+                margin={"l": 20, "r": 30, "t": 10, "b": 20},
                 height=280,
                 plot_bgcolor="rgba(0,0,0,0)",
                 paper_bgcolor="rgba(0,0,0,0)",
+                font=dict(family="Plus Jakarta Sans", size=12),
             )
             st.plotly_chart(fig_bar, use_container_width=True)
         else:
             st.info("No sources met the relevance threshold for charting.")
 
     with vcol2:
-        st.markdown("##### Confidence Heuristic Gauge (0–5 pts)")
+        st.markdown("##### Confidence Score Breakdown (0–5 pts)")
         total_score = conf.get("score", 0)
 
         fig_gauge = go.Figure(
@@ -486,8 +690,8 @@ if st.session_state["current_report"]:
                 value=total_score,
                 domain={"x": [0, 1], "y": [0, 1]},
                 gauge={
-                    "axis": {"range": [0, 5], "tickwidth": 1, "tickcolor": "#475569"},
-                    "bar": {"color": "#0284c7"},
+                    "axis": {"range": [0, 5], "tickwidth": 1, "tickcolor": "#64748b"},
+                    "bar": {"color": "#0284c7", "thickness": 0.28},
                     "bgcolor": "white",
                     "steps": [
                         {"range": [0, 2], "color": "#fee2e2"},
@@ -495,8 +699,8 @@ if st.session_state["current_report"]:
                         {"range": [4, 5], "color": "#dcfce7"},
                     ],
                     "threshold": {
-                        "line": {"color": "#16a34a", "width": 4},
-                        "thickness": 0.75,
+                        "line": {"color": "#10b981", "width": 4},
+                        "thickness": 0.8,
                         "value": 4.0,
                     },
                 },
@@ -506,44 +710,84 @@ if st.session_state["current_report"]:
             margin={"l": 20, "r": 20, "t": 20, "b": 20},
             height=200,
             paper_bgcolor="rgba(0,0,0,0)",
+            font=dict(family="Plus Jakarta Sans"),
         )
         st.plotly_chart(fig_gauge, use_container_width=True)
 
-        # Component breakdown pills
         c_ext = conf.get("extracted_score", 0)
         c_rel = conf.get("relevance_score", 0)
         c_div = conf.get("diversity_score", 0)
         st.caption(
-            f"**Heuristic Breakdown:** Extracted Content: **+{c_ext}** | "
-            f"Keyword Relevance: **+{c_rel}** | "
-            f"Domain Diversity: **+{c_div}**"
+            f"**Heuristic Points:** Extracted Pages: **+{c_ext}** | "
+            f"Keyword Density: **+{c_rel}** | "
+            f"Domain Variety: **+{c_div}**"
         )
 
-    # 4. Pipeline Retrieval Funnel
-    st.markdown("##### Information Retrieval Funnel")
-    funnel_stages = ["1. Searched", "2. Validated Safe", "3. Extracted", "4. Top Relevant"]
-    funnel_values = [
-        rep["sources_searched"],
-        rep["sources_validated"],
-        rep["sources_extracted"],
-        len(findings),
-    ]
+    # 4. Pipeline Funnel & Content Depth Row
+    fcol1, fcol2 = st.columns([1, 1])
 
-    fig_funnel = go.Figure(
-        go.Funnel(
-            y=funnel_stages,
-            x=funnel_values,
-            textinfo="value+percent initial",
-            marker={"color": ["#64748b", "#3b82f6", "#0284c7", "#10b981"]},
+    with fcol1:
+        st.markdown("##### Retrieval Funnel Progression")
+        funnel_stages = ["1. Searched", "2. Validated Safe", "3. Extracted", "4. Top Relevant"]
+        funnel_values = [
+            rep["sources_searched"],
+            rep["sources_validated"],
+            rep["sources_extracted"],
+            len(findings),
+        ]
+
+        fig_funnel = go.Figure(
+            go.Funnel(
+                y=funnel_stages,
+                x=funnel_values,
+                textinfo="value+percent initial",
+                marker={"color": ["#64748b", "#3b82f6", "#0284c7", "#10b981"]},
+            )
         )
-    )
-    fig_funnel.update_layout(
-        margin={"l": 20, "r": 20, "t": 10, "b": 10},
-        height=190,
-        paper_bgcolor="rgba(0,0,0,0)",
-        plot_bgcolor="rgba(0,0,0,0)",
-    )
-    st.plotly_chart(fig_funnel, use_container_width=True)
+        fig_funnel.update_layout(
+            margin={"l": 20, "r": 20, "t": 10, "b": 10},
+            height=210,
+            paper_bgcolor="rgba(0,0,0,0)",
+            plot_bgcolor="rgba(0,0,0,0)",
+            font=dict(family="Plus Jakarta Sans"),
+        )
+        st.plotly_chart(fig_funnel, use_container_width=True)
+
+    with fcol2:
+        st.markdown("##### Extracted Content Depth (Word Count)")
+        if findings:
+            lengths_data = []
+            for f in findings:
+                domain = get_domain(f["source_url"])
+                word_count = len(f["text"].split())
+                lengths_data.append({
+                    "Source": domain,
+                    "Word Count": word_count,
+                    "Evidence Type": f["evidence_type"],
+                })
+            df_len = pd.DataFrame(lengths_data)
+            fig_len = px.bar(
+                df_len,
+                x="Source",
+                y="Word Count",
+                color="Evidence Type",
+                color_discrete_map={
+                    "Extracted webpage content": "#0284c7",
+                    "Search snippet": "#f59e0b",
+                },
+                text="Word Count",
+            )
+            fig_len.update_traces(textposition="outside")
+            fig_len.update_layout(
+                margin={"l": 20, "r": 20, "t": 10, "b": 10},
+                height=210,
+                paper_bgcolor="rgba(0,0,0,0)",
+                plot_bgcolor="rgba(0,0,0,0)",
+                font=dict(family="Plus Jakarta Sans"),
+            )
+            st.plotly_chart(fig_len, use_container_width=True)
+        else:
+            st.info("No content available for word count analysis.")
 
     # -------------------------------------------------------------------------
     # Report Tabs
@@ -555,7 +799,7 @@ if st.session_state["current_report"]:
             "⚖️ Limitations & Next Steps",
             "📜 13-Step Execution Log",
             "📖 In-App Documentation Explorer",
-            "📦 Report Export Options",
+            "📦 Report Export Center",
         ]
     )
 
@@ -566,37 +810,41 @@ if st.session_state["current_report"]:
         else:
             for i, f in enumerate(findings, 1):
                 domain = get_domain(f["source_url"])
-                highlighted_excerpt = highlight_keywords(f["text"][:400], rep["question"])
+                highlighted_excerpt = highlight_keywords(f["text"][:450], rep["question"])
+                rel_pct = f"{f['relevance_score']:.0%}"
 
                 st.markdown(
                     f"""
                     <div class="finding-card">
-                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
-                            <div>
-                                <span class="badge-domain">🌐 {domain}</span>
-                                <h4 style="margin: 6px 0 0 0; font-size: 1.1rem;">
-                                    Finding {i}: <a href="{f['source_url']}" target="_blank" style="text-decoration: none; color: #0284c7;">{f['source_title']}</a>
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span style="background: #0284c7; color: white; border-radius: 50%; width: 26px; height: 26px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700;">#{i}</span>
+                                <h4 style="margin: 0; font-size: 1.15rem; font-weight: 700;">
+                                    <a href="{f['source_url']}" target="_blank" style="text-decoration: none; color: #0284c7;">{f['source_title']}</a>
                                 </h4>
                             </div>
-                            <span class="badge-source">{f['evidence_type']}</span>
+                            <div style="display: flex; gap: 6px;">
+                                <span class="badge-domain">🌐 {domain}</span>
+                                <span class="badge-evidence">{f['evidence_type']}</span>
+                            </div>
                         </div>
-                        <div style="margin: 8px 0;">
-                            <span style="font-size: 0.85rem; color: #475569;">
-                                <strong>Relevance Density:</strong> {f['relevance_score']:.0%} match
+                        <div style="margin: 8px 0 12px 0;">
+                            <span style="font-size: 0.85rem; font-weight: 600; color: #475569;">
+                                🎯 Keyword Match Density: <strong style="color: #0284c7;">{rel_pct}</strong>
                             </span>
                         </div>
-                        <div style="background: #f8fafc; border-left: 3px solid #0284c7; padding: 12px 14px; border-radius: 6px; font-size: 0.95rem; line-height: 1.6; color: #334155; margin-bottom: 8px;">
-                            "{highlighted_excerpt}{'...' if len(f['text']) > 400 else ''}"
+                        <div style="background: #f8fafc; border-left: 4px solid #0284c7; padding: 14px 16px; border-radius: 8px; font-size: 0.98rem; line-height: 1.65; color: #334155; margin-bottom: 10px;">
+                            "{highlighted_excerpt}{'...' if len(f['text']) > 450 else ''}"
                         </div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: #64748b;">
-                            <span>Source: <a href="{f['source_url']}" target="_blank" style="color: #64748b;">{f['source_url']}</a></span>
+                        <div style="font-size: 0.82rem; color: #64748b;">
+                            Source URL: <a href="{f['source_url']}" target="_blank" style="color: #64748b; word-break: break-all;">{f['source_url']}</a>
                         </div>
                     </div>
                     """,
                     unsafe_allow_html=True,
                 )
 
-                with st.expander(f"📄 View Full Extracted Text for Finding {i}"):
+                with st.expander(f"📄 View Full Raw Text for Finding #{i}"):
                     st.write(f["text"])
 
     # TAB 2: Limitations & Next Steps
@@ -614,10 +862,10 @@ if st.session_state["current_report"]:
     # TAB 3: Execution Log
     with tab_log:
         st.markdown("#### 📜 Verifiable Execution Audit Trail")
-        st.caption("Deterministic log generated step-by-step during this execution:")
+        st.caption("Deterministic trace generated step-by-step during this query execution:")
         st.code("\n".join(rep["execution_log"]), language="text")
 
-    # TAB 4: In-App Documentation Explorer (README, Evaluation, Demo Script)
+    # TAB 4: In-App Documentation Explorer
     with tab_docs:
         st.markdown("#### 📖 Project Documentation & Benchmark Files")
         doc_choice = st.radio(
@@ -641,7 +889,6 @@ if st.session_state["current_report"]:
         st.markdown("#### 📦 Multi-Format Report Export")
         st.caption("Export your research report directly to JSON, Markdown, or styled HTML:")
 
-        # Prepare formats
         json_export = json.dumps(rep, indent=2, ensure_ascii=False)
 
         md_export = f"""# Research Report: {rep['question']}
@@ -652,7 +899,7 @@ if st.session_state["current_report"]:
 
 ---
 
-## Executive Short Answer
+## Executive Synthesis
 {rep['short_answer']}
 
 ---
@@ -684,7 +931,6 @@ if st.session_state["current_report"]:
         for s in rep["next_steps"]:
             md_export += f"- {s}\n"
 
-        # HTML Export
         html_export = f"""<!DOCTYPE html>
 <html>
 <head>
@@ -705,7 +951,7 @@ if st.session_state["current_report"]:
     <p><strong>Latency:</strong> {rep['execution_time_seconds']}s | <span class="badge">Confidence: {conf['level']}</span></p>
     
     <div class="summary">
-        <h3>Executive Short Answer</h3>
+        <h3>Executive Synthesis</h3>
         <p>{rep['short_answer']}</p>
         <small>{conf['explanation']}</small>
     </div>
